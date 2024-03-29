@@ -17,10 +17,26 @@ Route::middleware('guest')->group(function () {
 
     Route::post('register', [RegisteredUserController::class, 'store']);
 
+    Route::post('authregister', [RegisteredUserController::class, 'auth'])
+        ->name('authregister');
+
+    /**
+     **新規会員登録画面前の最初のメール入力画面を表示するルーティング
+     */
+    Route::get('first-auth', [RegisteredUserController::class, 'sendPassEmail'])
+        ->name('auth.first-auth'); // 追加
+
+    /**
+     **トークンを含んだメールを送信するルーティング
+     */
+    Route::post('sendTokenEmail', [RegisteredUserController::class, 'sendTokenEmail'])
+        ->name('sendTokenEmail');
+
     Route::get('login', [AuthenticatedSessionController::class, 'create'])
                 ->name('login');
 
-    Route::post('login', [AuthenticatedSessionController::class, 'store']);
+    Route::post('login', [AuthenticatedSessionController::class, 'store'])
+        ->name('login'); //追加
 
     Route::get('forgot-password', [PasswordResetLinkController::class, 'create'])
                 ->name('password.request');
