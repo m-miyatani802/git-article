@@ -83,7 +83,9 @@ class RegisteredUserController extends Controller
 
         if ($user['onetime_token'] == $request->onetime_token && $expiration > now()) {
             // Auth::login($user);
-            return redirect()->route('register')->with(compact('user'));
+
+            $i = 1;
+            return redirect()->route('register')->with(['i' => $i]);
         }
         return redirect()->route('auth.first-auth');
     }
@@ -91,16 +93,35 @@ class RegisteredUserController extends Controller
     /**
      * Display the registration view.
      */
-    public function create($user = 0): View
+    public function create(Request $request): View
     {
-        // dd($user);
-        if ($user == 0){
+        // dd($i);
+        if ($request != null){
             return view('auth.register');
-        } elseif($user == null){
+        } elseif($request == null){
             return view('welcome');
         }
     }
 
+    /**
+     *会員登録確認画面
+     */
+    public function show(Request $request): View
+    {
+        // dd($request);
+        $request->validate([
+        'account_name' => ['required', 'string', 'max:255'],
+        'user_name' => ['required', 'string', 'max:255'],
+        'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
+        'password' => ['required', 'confirmed', Rules\Password::defaults()],
+        'gender' => ['required'],
+        'birth' => ['required'],
+                ]);
+
+        $user = $request;
+        $gender = $request['gender'];
+        return view('/auth/info_input_conf_show', compact('user', 'gender'));
+    }
 
     /**
      * Handle an incoming registration request.
@@ -109,12 +130,14 @@ class RegisteredUserController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
+        // dd($request);
         $request->validate([
             'account_name' => ['required', 'string', 'max:255'],
             'user_name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
-            // 'birthday' => ['']
+            'gender' => ['required'],
+            'birth' => ['required'],
         ]);
 
         $user = User::create([
