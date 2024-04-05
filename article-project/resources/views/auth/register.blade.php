@@ -1,7 +1,6 @@
 <x-guest-layout>
-    <form method="POST" action="{{ route('register') }}">
+    <form method="POST" action="{{ route('auth.show') }}">
         @csrf
-
         <!-- アカウント名 -->
         <div>
             <x-input-label for="account_name" :value="__('アカウント名')" />
@@ -58,7 +57,7 @@
         <!-- 誕生日 -->
         <div>生年月日</div>
         <label class="date-edit">
-            <input type="date" name="birth" value="2000-01-01" required/>
+            <input type="date" max="2030-12-31" name="birth" value="2000-01-01" required/>
         </label>
 
         <br>
@@ -69,7 +68,7 @@
             </a>
 
             <x-primary-button class="ms-4">
-                {{ __('会員登録') }}
+                {{ __('次へ') }}
             </x-primary-button>
         </div>
     </form>
