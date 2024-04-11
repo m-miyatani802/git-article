@@ -68,7 +68,8 @@ class RegisteredUserController extends Controller
         }
 
         session()->flash('email', $email); // 認証処理で利用するために一時的に格納
-
+        $request->session()->put('email', $email);
+        // dd(session('email'));
         Mail::send(new TokenEmail($email, $onetime_token));
 
         return view('auth.second-auth');
@@ -84,8 +85,10 @@ class RegisteredUserController extends Controller
         if ($user['onetime_token'] == $request->onetime_token && $expiration > now()) {
             // Auth::login($user);
 
-            $i = 1;
-            return redirect()->route('register')->with(['i' => $i]);
+            $strings = [
+                'str_1' => 'test1',
+            ];
+            return redirect()->route('register')->withInput($strings);
         }
         return redirect()->route('auth.first-auth');
     }
@@ -95,10 +98,14 @@ class RegisteredUserController extends Controller
      */
     public function create(Request $request): View
     {
-        // dd($i);
-        if ($request != null){
+        // dd('$redirect_strings');
+        $redirect_strings = [
+            'redirect_str_1' => $request->old('str_1'),
+        ];
+
+        if ($request->old('str_1') != null){
             return view('auth.register');
-        } elseif($request == null){
+        } elseif ($request->old('str_1') == null){
             return view('welcome');
         }
     }

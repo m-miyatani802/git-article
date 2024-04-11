@@ -51,7 +51,7 @@
             <button type="button" onClick="history.back()">戻る</button>
 
             <x-primary-button class="ms-4">
-                {{ __('次へ') }}
+                {{ __('登録') }}
             </x-primary-button>
         </div>
     </form>
