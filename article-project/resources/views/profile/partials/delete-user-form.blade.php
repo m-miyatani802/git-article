@@ -15,9 +15,10 @@
     >{{ __('Delete Account') }}</x-danger-button>
 
     <x-modal name="confirm-user-deletion" :show="$errors->userDeletion->isNotEmpty()" focusable>
-        <form method="post" action="{{ route('profile.destroy') }}" class="p-6">
+        {{-- <form method="post" action="{{ route('profile.destroy') }}" class="p-6"> --}}
+        <form method="post" action="{{ route('delete_questionnaire') }}" class="p-6">
             @csrf
-            @method('delete')
+            {{-- @method('delete') --}}
 
             <h2 class="text-lg font-medium text-gray-900">
                 {{ __('Are you sure you want to delete your account?') }}
@@ -47,7 +48,8 @@
                 </x-secondary-button>
 
                 <x-danger-button class="ms-3">
-                    {{ __('Delete Account') }}
+                    {{-- {{ __('Delete Account') }} --}}
+                    {{ __('次へ') }}
                 </x-danger-button>
             </div>
         </form>

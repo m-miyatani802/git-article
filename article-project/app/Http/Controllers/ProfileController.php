@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
+use Illuminate\Support\Facades\DB;
 
 class ProfileController extends Controller
 {
@@ -38,23 +39,42 @@ class ProfileController extends Controller
     }
 
     /**
-     * Delete the user's account.
-     */
-    public function destroy(Request $request): RedirectResponse
+    * アカウント削除用アンケート入力画面へ
+    */
+    public function delete_questionnaire(Request $request): View
     {
         $request->validateWithBag('userDeletion', [
             'password' => ['required', 'current_password'],
         ]);
+        $user = $request->user();
+        // dd($user->id);
+        return view('profile.questionnaire_conf', compact('user'));
+
+    }
+
+    /**
+     * Delete the user's account.
+     */
+    public function destroy(Request $request): RedirectResponse
+    {
+        // $request->validateWithBag('userDeletion', [
+        //     'password' => ['required', 'current_password'],
+        // ]);
 
         $user = $request->user();
+        $why_quit = $request['why_quit'];
+        $quit_comment = $request['quit_comment'];
 
+        DB::table('users')->where('id', $user->id)->update(['is_delete' => now()]);
+        DB::table('users')->where('id', $user->id)->update(['why_quit' => $why_quit]);
+        DB::table('users')->where('id', $user->id)->update(['quit_comment' => $quit_comment]);
         Auth::logout();
 
-        $user->delete();
+        // $user->delete();
 
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return Redirect::to('/');
+        return Redirect::to('/quit');
     }
 }

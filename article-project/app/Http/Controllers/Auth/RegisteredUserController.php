@@ -115,7 +115,6 @@ class RegisteredUserController extends Controller
      */
     public function show(Request $request): View
     {
-        // dd($request);
         $request->validate([
         'account_name' => ['required', 'string', 'max:255'],
         'user_name' => ['required', 'string', 'max:255'],
@@ -137,7 +136,6 @@ class RegisteredUserController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-        // dd($request);
         $request->validate([
             'account_name' => ['required', 'string', 'max:255'],
             'user_name' => ['required', 'string', 'max:255'],

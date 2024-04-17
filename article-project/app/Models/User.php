@@ -31,7 +31,9 @@ class User extends Authenticatable
         'remember_token',
         'is_delete',
         'onetime_token',
-        'onetime_expiration'
+        'onetime_expiration',
+        'why_quit',
+        'quit_comment'
     ];
 
     /**
