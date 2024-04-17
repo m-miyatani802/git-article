@@ -8,6 +8,8 @@ use App\Providers\RouteServiceProvider;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use App\Models\User;
 use Illuminate\View\View;
 
 class AuthenticatedSessionController extends Controller
@@ -25,11 +27,20 @@ class AuthenticatedSessionController extends Controller
      */
     public function store(LoginRequest $request): RedirectResponse
     {
-        $request->authenticate();
 
-        $request->session()->regenerate();
+        $users = User::where('email', $request['email'])->get();
 
-        return redirect()->intended(RouteServiceProvider::HOME);
+        // dd($users[0]->is_delete);
+
+        if ($users[0]->is_delete == null) {
+
+            $request->authenticate();
+            $request->session()->regenerate();
+            return redirect()->intended(RouteServiceProvider::HOME);
+
+        } elseif ($users[0]->is_delete !== null) {
+            return redirect('/');
+        }
     }
 
     /**

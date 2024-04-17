@@ -26,6 +26,8 @@ return new class extends Migration
             $table->rememberToken();
             $table->timestamps();
             $table->datetime('is_delete')->nullable();
+            $table->integer('why_quit')->nullable();
+            $table->string('quit_comment')->nullable();
         });
     }
 
