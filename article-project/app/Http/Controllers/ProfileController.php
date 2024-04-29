@@ -77,4 +77,42 @@ class ProfileController extends Controller
 
         return Redirect::to('/quit');
     }
+
+    /**
+     * 公開プロフィール編集画面へ
+     */
+    public function open_profile(Request $request): View
+    {
+        return view('profile.open_profile', [
+            'user' => $request->user(),
+        ]);
+    }
+
+    /**
+     * 公開プロフィール編集変更
+     */
+    public function open_profile_store(Request $request)
+    {
+        $request->validate([
+            'user_name' => ['required',  'max:255'],
+            'account_name' => ['required', 'max:255'],
+        ]);
+
+        $user = $request->user();
+        $user_name = $request['user_name'];
+        $account_name = $request['account_name'];
+        $open_email = $request['open_email'];
+        $site_url = $request['site_url'];
+        $self_introduction = $request['self_introduction'];
+
+        DB::table('users')->where('id', $user->id)->update(['user_name' => $user_name]);
+        DB::table('users')->where('id', $user->id)->update(['account_name' => $account_name]);
+        DB::table('users')->where('id', $user->id)->update(['open_email' => $open_email]);
+        DB::table('users')->where('id', $user->id)->update(['site_url' => $site_url]);
+        DB::table('users')->where('id', $user->id)->update(['self_introduction' => $self_introduction]);
+
+        session()->flash('message', '変更が完了しました。');
+
+        return redirect()->route('open_profile')->with('user', $user);
+    }
 }
