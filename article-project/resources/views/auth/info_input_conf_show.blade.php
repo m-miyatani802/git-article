@@ -48,7 +48,9 @@
         </label><br>
 
         <div class="flex items-center justify-end mt-4">
-            <button type="button" onClick="history.back()">戻る</button>
+            <x-secondary-button onClick="history.back()">
+                {{ __('戻る') }}
+            </x-secondary-button>
 
             <x-primary-button class="ms-4">
                 {{ __('登録') }}
