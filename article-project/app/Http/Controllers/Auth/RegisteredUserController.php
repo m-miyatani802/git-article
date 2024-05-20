@@ -20,7 +20,7 @@ use Illuminate\Support\Facades\Mail;
 class RegisteredUserController extends Controller
 {
     /**
-     **最初の最初のメール入力画面を表示する
+     **最初のメール入力画面を表示する
      */
     public function sendPassEmail(): View {
         return view('auth.first-auth');
@@ -83,7 +83,6 @@ class RegisteredUserController extends Controller
         $expiration = new Carbon($user['onetime_token']);
 
         if ($user['onetime_token'] == $request->onetime_token && $expiration > now()) {
-            // Auth::login($user);
 
             $strings = [
                 'str_1' => 'test1',
@@ -98,7 +97,6 @@ class RegisteredUserController extends Controller
      */
     public function create(Request $request): View
     {
-        // dd('$redirect_strings');
         $redirect_strings = [
             'redirect_str_1' => $request->old('str_1'),
         ];
@@ -157,7 +155,7 @@ class RegisteredUserController extends Controller
         event(new Registered($user));
 
         Auth::login($user);
-        
+
         return redirect(RouteServiceProvider::HOME);
     }
 }

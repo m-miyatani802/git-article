@@ -30,8 +30,6 @@ class AuthenticatedSessionController extends Controller
 
         $users = User::where('email', $request['email'])->get();
 
-        // dd($users[0]->is_delete);
-
         if ($users[0]->is_delete == null) {
 
             $request->authenticate();

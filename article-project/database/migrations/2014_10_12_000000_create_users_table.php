@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('user_name')->nullable();
             $table->string('account_name')->nullable();
+            $table->string('admin')->nullable();
             $table->string('email')->unique();
             $table->timestamp('email_verified_at');
             $table->string('password');
@@ -28,6 +29,8 @@ return new class extends Migration
             $table->datetime('is_delete')->nullable();
             $table->integer('why_quit')->nullable();
             $table->string('quit_comment')->nullable();
+            $table->char("onetime_token", 4)->nullable(); // ワンタイムトークン
+            $table->dateTime("onetime_expiration")->nullable(); // ワンタイムトークンの有効期限
         });
     }
 
