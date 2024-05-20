@@ -1,9 +1,9 @@
-import './bootstrap';
+// import './bootstrap';
 
-import Alpine from 'alpinejs';
-// import Vue from 'vue';
+// import Alpine from 'alpinejs';
+// // import Vue from 'vue';
 
-window.Alpine = Alpine;
+// window.Alpine = Alpine;
 
 // Alpine.start();
 
